@@ -209,39 +209,6 @@ ui_print("Mounting /system...");
 run_program("/sbin/busybox", "blockdev", "--setrw", "/dev/block/platform/msm_sdcc.1/by-name/system");
 run_program("/sbin/busybox", "mount", "/system");
 
-ui_print("Installing Recovery...");
-package_extract_dir("existenz/common/bootloader/locked/tmp", "/tmp");
-ui_print("Installing version ", file_getprop("/tmp/dr.prop","version"));
-ui_print("  Making sure a copy of the original chargemon remains...");
-package_extract_file("existenz/common/bootloader/locked/system/xbin/busybox", "/sbin/sh");
-package_extract_file("chargemon.c650x", "/tmp/chargemon.c650x");
-package_extract_file("chargemon.c660x", "/tmp/chargemon.c660x");
-package_extract_file("existenz/common/bootloader/locked/backupstockbinaries.sh", "/sbin/backupstockbinaries.sh");
-set_perm(0, 0, 0755, "/sbin/sh");
-set_perm(0, 0, 0755, "/sbin/backupstockbinaries.sh");
-run_program("/sbin/backupstockbinaries.sh");
-
-ui_print("  Extracting new recovery files to SYSTEM...");
-package_extract_dir("existenz/common/bootloader/locked/system", "/system");
-run_program("/sbin/cp", "/system/xbin/busybox", "/system/.XZDualRecovery/busybox");
-
-ui_print("  Stock ramdisk needed?");
-package_extract_dir("existenz/common/bootloader/locked/tmp", "/tmp");
-set_perm(0, 0, 0755, "/tmp/installstock.sh");
-run_program("/tmp/installstock.sh");
-
-ui_print("  Installing NDR Utils...?");
-set_perm(0, 0, 0755, "/tmp/installndrutils.sh");
-run_program("/tmp/installndrutils.sh");
-
-ui_print("  Saving version...");
-set_perm(0, 0, 0755, "/tmp/setversion.sh");
-run_program("/tmp/setversion.sh");
-
-ui_print("  RIC protection needed?");
-set_perm(0, 0, 0755, "/tmp/installdisableric.sh");
-run_program("/tmp/installdisableric.sh");
-		
 ui_print("  Correcting permissions...");
 set_perm(0, 2000, 0644, "/system/bin/recovery.cwm.cpio.lzma");
 set_perm(0, 2000, 0644, "/system/bin/recovery.philz.cpio.lzma");
