@@ -12,15 +12,15 @@ ifelse(is_mounted("/system"), unmount("/system"));
 ifelse(is_mounted("/cache"), unmount("/cache"));
 
 ui_print("Cleaning...");
-format("ext4", "EMMC", "/dev/block/mmcblk0p24", "0", "/system");
-format("ext4", "EMMC", "/dev/block/mmcblk0p25", "0", "/cache");
+format("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/system", "0", "/system");
+format("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/cache", "0", "/cache");
 delete_recursive("/data/dalvik-cache");
 delete_recursive("/data/resource-cache");
 set_progress(0.10);
 
 ui_print("Mounting /system...");
-mount("ext4", "EMMC", "/dev/block/mmcblk0p26", "/data");
-mount("ext4", "EMMC", "/dev/block/mmcblk0p24", "/system");
+mount("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/userdata", "/data");
+mount("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/system", "/system");
 
 ui_print("Copying system files...");
 package_extract_dir("system", "/system");
@@ -48,15 +48,10 @@ symlink("toolbox",
 symlink("Roboto-Regular.ttf", "/system/fonts/DroidSans.ttf");
 symlink("Roboto-Bold.ttf", "/system/fonts/DroidSans-Bold.ttf");
 symlink("libGLESv2.so", "/system/lib/libGLESv3.so");
-symlink("/data/misc/audio/wcd9310_anc.bin", "/system/etc/firmware/wcd9310/wcd9310_anc.bin");
-symlink("/data/misc/audio/mad_audio.bin", "/system/etc/firmware/wcd9310/wcd9310_mad_audio.bin");
 symlink("/data/misc/audio/mbhc.bin", "/system/etc/firmware/wcd9310/wcd9310_mbhc.bin");
-symlink("/system/lib/modules/prima/prima_wlan.ko", "/system/lib/modules/wlan.ko");
-symlink("/data/etc/wlan_txpower_2_4g", "/system/etc/firmware/wlan/2_4g");
-symlink("/data/etc/wlan_txpower_5g_high", "/system/etc/firmware/wlan/5g_high");
-symlink("/data/etc/wlan_txpower_5g_low", "/system/etc/firmware/wlan/5g_low");
-symlink("/data/etc/wlan_txpower_5g_mid", "/system/etc/firmware/wlan/5g_mid");
-symlink("/data/etc/wlan_macaddr0", "/system/etc/firmware/wlan/macaddr0");
+symlink("/data/misc/audio/wcd9310_anc.bin", "/system/etc/firmware/wcd9310/wcd9310_anc.bin");
+symlink("/data/misc/wifi/WCNSS_qcom_cfg.ini", "/system/vendor/firmware/wlan/prima/WCNSS_qcom_cfg.ini");
+symlink("/data/misc/wifi/WCNSS_qcom_wlan_nv.bin", "/system/vendor/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin");
 symlink("/system/bin/app_process32", "/system/bin/app_process");
 symlink("/system/bin/dalvikvm32", "/system/bin/dalvikvm");
 symlink("/system/lib/libGLESv2.so", "/system/lib/libGLESv3.so");
@@ -173,7 +168,6 @@ set_metadata("/system/etc/dhcpcd", "uid", 0, "gid", 2000, "mode", 0755, "capabil
 set_metadata("/system/etc/dhcpcd/dhcpcd-hooks", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
 set_metadata("/system/etc/dhcpcd/dhcpcd-run-hooks", "uid", 1014, "gid", 2000, "mode", 0550, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
 set_metadata("/system/etc/fast-dormancy", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
-set_metadata("/system/etc/firmware", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
 set_metadata("/system/etc/permissions", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
 set_metadata_recursive("/system/etc/ppp", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0555, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
 set_metadata("/system/etc/security", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
@@ -182,8 +176,9 @@ set_metadata("/system/etc/wifi", "uid", 0, "gid", 2000, "mode", 0755, "capabilit
 set_metadata("/system/vendor", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
 set_metadata("/system/vendor/camera", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
 set_metadata("/system/vendor/firmware", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
-set_metadata("/system/etc/firmware/wlan", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
-set_metadata("/system/etc/firmware/wlan/prima", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/firmware/keymaster", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata_recursive("/system/vendor/firmware/wlan", "uid", 0, "gid", 2000, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/firmware/wlan/prima/WCNSS_cfg.dat", "uid", 0, "gid", 0, "mode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
 set_metadata_recursive("/system/etc/hostapd", "uid", 0, "gid", 2000, "dmode", 0755, "fmode", 0644, "capabilities", "0x0", "selabel", "u:object_r:system_file:s0");
 set_metadata("/system/etc/hostapd/hostapd_default.conf", "uid", 0, "gid", 0, "mode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
 set_metadata_recursive("/system/vendor/lib", "uid", 0, "gid", 2000, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
@@ -208,17 +203,6 @@ set_progress(0.70);
 ui_print("Mounting /system...");
 run_program("/sbin/busybox", "blockdev", "--setrw", "/dev/block/platform/msm_sdcc.1/by-name/system");
 run_program("/sbin/busybox", "mount", "/system");
-
-ui_print("  Correcting permissions...");
-set_perm(0, 2000, 0644, "/system/bin/recovery.cwm.cpio.lzma");
-set_perm(0, 2000, 0644, "/system/bin/recovery.philz.cpio.lzma");
-set_perm(0, 2000, 0644, "/system/bin/recovery.twrp.cpio.lzma");
-set_perm(0, 2000, 0755, "/system/bin/mr");
-set_perm(0, 2000, 0755, "/system/bin/chargemon");
-set_perm(0, 2000, 0755, "/system/bin/dualrecovery.sh");
-set_perm(0, 2000, 0755, "/system/bin/rickiller.sh");
-set_perm(0, 2000, 0755, "/system/xbin/busybox");
-set_progress(0.80);
 
 ui_print("Copying kernel...");
 package_extract_file("boot.img", "/dev/block/platform/msm_sdcc.1/by-name/boot");
