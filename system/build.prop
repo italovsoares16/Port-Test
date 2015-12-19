@@ -62,7 +62,8 @@ ro.product.cpu.abilist=armeabi-v7a,armeabi
 ro.product.cpu.abilist32=armeabi-v7a,armeabi
 ro.product.cpu.abilist64=
 ro.product.manufacturer=Sony
-ro.product.locale.language=xxhdpi
+ro.product.locale.language=en
+ro.product.locale.region=US
 ro.wifi.channels=
 ro.board.platform=msm8960
 # ro.build.product is obsolete; use ro.product.device
