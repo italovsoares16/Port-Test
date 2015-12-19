@@ -55,6 +55,7 @@ symlink("/data/misc/wifi/WCNSS_qcom_wlan_nv.bin", "/system/vendor/firmware/wlan/
 symlink("/system/bin/app_process32", "/system/bin/app_process");
 symlink("/system/bin/dalvikvm32", "/system/bin/dalvikvm");
 symlink("/system/lib/libGLESv2.so", "/system/lib/libGLESv3.so");
+symlink("/system/lib/libnfc_nci_jni.so", "/system/app/NfcNci/lib/arm/libnfc_nci_jni.so");
 
 ui_print("Setting up metadatas...");
 set_metadata_recursive("/system", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
